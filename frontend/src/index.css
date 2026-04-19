@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* ===== TVK Theme System ===== */
+/* TVK Party Colors: Red, Yellow/Gold, White */
+
+:root {
+  /* Light Mode (default for auto) */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #FEF9E7;
+  --bg-card: #FFFDF5;
+  --bg-sidebar: #FFF8E1;
+  --bg-input: #FFFFFF;
+  --bg-overlay: rgba(255,255,255,0.85);
+
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #888888;
+
+  --accent-primary: #DC2626;       /* TVK Red */
+  --accent-secondary: #EAB308;    /* TVK Yellow/Gold */
+  --accent-gradient-from: #DC2626;
+  --accent-gradient-to: #EAB308;
+
+  --border-color: rgba(0,0,0,0.08);
+  --border-hover: rgba(0,0,0,0.15);
+
+  --shadow-accent: rgba(220, 38, 38, 0.2);
+  --shadow-secondary: rgba(234, 179, 8, 0.15);
+
+  --badge-urgent-bg: rgba(220, 38, 38, 0.12);
+  --badge-urgent-text: #DC2626;
+  --badge-urgent-border: rgba(220, 38, 38, 0.3);
+  --badge-important-bg: rgba(234, 179, 8, 0.12);
+  --badge-important-text: #B45309;
+  --badge-important-border: rgba(234, 179, 8, 0.3);
+
+  --btn-primary-bg: #DC2626;
+  --btn-primary-hover: #B91C1C;
+  --btn-secondary-bg: #EAB308;
+  --btn-secondary-hover: #CA8A04;
+  --btn-ghost-bg: rgba(0,0,0,0.04);
+  --btn-ghost-hover: rgba(0,0,0,0.08);
+
+  --comment-bg: rgba(0,0,0,0.03);
+  --scrollbar-thumb: rgba(0,0,0,0.15);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-card: rgba(255,255,255,0.05);
+  --bg-sidebar: rgba(255,255,255,0.05);
+  --bg-input: #0a0a0a;
+  --bg-overlay: rgba(10,10,10,0.80);
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #CCCCCC;
+  --text-muted: #888888;
+
+  --accent-primary: #EF4444;
+  --accent-secondary: #FACC15;
+  --accent-gradient-from: #EF4444;
+  --accent-gradient-to: #FACC15;
+
+  --border-color: rgba(255,255,255,0.10);
+  --border-hover: rgba(255,255,255,0.20);
+
+  --shadow-accent: rgba(239, 68, 68, 0.25);
+  --shadow-secondary: rgba(250, 204, 21, 0.2);
+
+  --badge-urgent-bg: rgba(239, 68, 68, 0.15);
+  --badge-urgent-text: #FCA5A5;
+  --badge-urgent-border: rgba(239, 68, 68, 0.35);
+  --badge-important-bg: rgba(250, 204, 21, 0.15);
+  --badge-important-text: #FDE047;
+  --badge-important-border: rgba(250, 204, 21, 0.35);
+
+  --btn-primary-bg: #DC2626;
+  --btn-primary-hover: #EF4444;
+  --btn-secondary-bg: #EAB308;
+  --btn-secondary-hover: #FACC15;
+  --btn-ghost-bg: rgba(255,255,255,0.08);
+  --btn-ghost-hover: rgba(255,255,255,0.15);
+
+  --comment-bg: rgba(0,0,0,0.30);
+  --scrollbar-thumb: rgba(255,255,255,0.15);
+}
+
+/* ===== Base Styles ===== */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth transitions on theme switch */
+*, *::before, *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Fade-in animation */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
+/* Pointer cursor for all clickable elements */
+button, a, select, [role="button"], [onclick], label[for], summary {
+  cursor: pointer;
+}
+
+/* ===== Button Hover Effects ===== */
+
+/* All buttons: subtle lift + brighten on hover */
+button {
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease !important;
+}
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+button:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Primary buttons (red CTA): glow on hover */
+button[style*="btn-primary-bg"]:hover,
+button[style*="accent-primary"]:hover {
+  box-shadow: 0 6px 20px var(--shadow-accent) !important;
+}
+
+/* Ghost/secondary buttons: visible bg on hover */
+button[style*="btn-ghost-bg"]:hover {
+  background-color: var(--btn-ghost-hover) !important;
+}
+
+/* Text-style action buttons (support, unsupport, discuss, share) */
+button[style*="text-muted"]:hover {
+  color: var(--text-primary) !important;
+  filter: brightness(1);
+}
+
+/* Sidebar nav links */
+nav a {
+  transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease !important;
+}
+nav a:hover {
+  transform: translateX(2px);
+}
+
+/* Card-style buttons (dashboard quick actions, welcome features) */
+div[style*="bg-card"][class*="cursor-pointer"]:hover,
+button[style*="bg-card"]:hover {
+  border-color: var(--border-hover) !important;
+  box-shadow: 0 4px 16px var(--shadow-secondary) !important;
+  transform: translateY(-2px);
+}
+
+/* Select dropdowns */
+select:hover {
+  border-color: var(--border-hover) !important;
+}
+
+/* Close button (X) */
+button[class*="rounded-full"][class*="w-8"]:hover {
+  background-color: var(--btn-ghost-hover) !important;
+  color: var(--text-primary) !important;
+}
