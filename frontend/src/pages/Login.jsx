@@ -6,7 +6,7 @@ import { TN_DISTRICTS, DISTRICT_CONSTITUENCIES, PARTY_INFO } from '../data/tnCon
 export default function Login() {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [formData, setFormData] = useState({
-    username: '', password: '', name: '', area: '', constituency: '', aadhaar_id: ''
+    username: '', password: '', name: '', area: '', constituency: '', aadhaar_id: '', aadhaar_otp: ''
   });
   const [selectedConstituency, setSelectedConstituency] = useState(null);
   const [error, setError] = useState('');
@@ -28,7 +28,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault(); setError('');
     if (isRegisterMode) {
-      if (formData.aadhaar_id.length !== 12 || !/^\d+$/.test(formData.aadhaar_id)) { setError('Aadhaar ID must be exactly 12 numeric digits.'); return; }
+      // Temporarily bypassed while Aadhaar API integration is in progress
+      // if (formData.aadhaar_id.length !== 12 || !/^\d+$/.test(formData.aadhaar_id)) { setError('Aadhaar ID must be exactly 12 numeric digits.'); return; }
       const result = await register(formData);
       if (result === true) navigate('/');
       else setError(typeof result === 'object' ? JSON.stringify(result) : 'Registration failed.');
@@ -98,13 +99,35 @@ export default function Login() {
                   </div>
                 </div>
               )}
-              <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>
-                  Aadhaar ID (12 Digits) <span style={{ color: 'var(--accent-primary)' }}>*</span>
-                </label>
-                <input type="text" name="aadhaar_id" placeholder="XXXX XXXX XXXX" maxLength={12}
-                       className="w-full rounded-lg p-3 focus:outline-none transition-colors tracking-widest font-mono" style={inputStyle}
-                       value={formData.aadhaar_id} onChange={handleChange} required />
+              <div className="p-4 rounded-xl space-y-4" style={{ backgroundColor: 'rgba(0,0,0,0.2)', border: '1px dashed var(--border-color)' }}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] font-bold tracking-tighter uppercase py-0.5 px-2 rounded-full" style={{ backgroundColor: 'var(--accent-primary)', color: '#fff' }}>Stage: Integration</span>
+                  <span className="text-[10px] opacity-50 italic">Deployment scheduled for V2.0</span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>
+                    Aadhaar ID (12 Digits)
+                  </label>
+                  <input type="text" name="aadhaar_id" placeholder="XXXX XXXX XXXX" 
+                         className="w-full rounded-lg p-3 focus:outline-none transition-colors tracking-widest font-mono cursor-not-allowed opacity-30 select-none" 
+                         style={inputStyle}
+                         value={formData.aadhaar_id} onChange={handleChange} disabled />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>
+                    Verification OTP
+                  </label>
+                  <input type="text" name="aadhaar_otp" placeholder="Enter 6-digit OTP" 
+                         className="w-full rounded-lg p-3 focus:outline-none transition-colors tracking-widest font-mono cursor-not-allowed opacity-30 select-none" 
+                         style={inputStyle}
+                         value={formData.aadhaar_otp} onChange={handleChange} disabled />
+                </div>
+                
+                <p className="text-[10px] leading-relaxed text-center" style={{ color: 'var(--text-muted)' }}>
+                  🔒 Secure Aadhaar API integration is in progress. This step is currently bypassed for your convenience during the pilot phase.
+                </p>
               </div>
             </>
           )}
